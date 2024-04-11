@@ -35,7 +35,7 @@ int main(void) {
         j++;
       }
       if (Buf[i] == '_' && isalpha(Buf[i - 1])) {
-        cBuf[j] = '9';
+        cBuf[j] = ',';
         j++;
       }
       if ((Buf[i] == '_' && Buf[i + 1] == '_') ||
@@ -48,16 +48,24 @@ int main(void) {
     }
 
     cBuf[j] = '\0';
-
+    int counter = 0;
     if (flag_error == 0) {
       for (int a = 0; a < strlen(cBuf); a++) {
+        if (ispunct(cBuf[a])) {
+          cBuf[a + 1] = toupper(cBuf[a + 1]);
+        }
         if (isdigit(cBuf[a])) {
           cBuf[a + 1] = toupper(cBuf[a + 1]);
         }
         if ((cBuf[a - 1] == '_') && isupper(cBuf[a])) {
           cBuf[a] = tolower(cBuf[a]);
         }
+        if (cBuf[a] != ',') {
+          cBuf[counter] = cBuf[a];
+          counter++;
+        }
       }
+      cBuf[counter] = '\0';
       fputs(cBuf, file);
     } else {
       fputs("ERROR\n", file);
